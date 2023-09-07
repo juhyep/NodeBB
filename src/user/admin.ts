@@ -47,7 +47,6 @@ export = function (User: UserType): void {
     };
     User.getUsersCSV = async function () : Promise<string> {
         winston.verbose('[user/getUsersCSV] Compiling User CSV data');
-
         const data: {fields: string[]} = await plugins.hooks.fire('filter:user.csvFields', {
             fields: ['uid', 'email', 'username'],
         }) as {fields: string[]};
@@ -66,7 +65,6 @@ export = function (User: UserType): void {
                 return memo;
             }, '');
         }, {});
-
         return csvContent;
     };
     User.exportUsersCSV = async function () : Promise<void> {
