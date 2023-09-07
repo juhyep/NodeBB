@@ -17,6 +17,7 @@ interface UserType {
     getUsersCSV: () => Promise<string>;
     getUsersFields: any;
     exportUsersCSV: () => Promise<void>;
+    forEach: (user: { [x: string]: string }, index: string | number) => Promise<string>;
 }
 
 
@@ -81,6 +82,8 @@ export = function (User: UserType): void {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         await fs.promises.appendFile(fd, `${fields.join(',')}${showIps ? ',ip' : ''}\n`);
         await batch.processSortedSet('users:joindate', async (uids : string[]) => {
+            // The next line calls a function in a module that has not been updated to TS yet
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             const usersData = await User.getUsersFields(uids, fields.slice());
             let ips : string[] = [];
 
@@ -93,7 +96,7 @@ export = function (User: UserType): void {
             let line = '';
             // The next line calls a function in a module that has not been updated to TS yet
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-            usersData.forEach((user: { [x: string]: any }, index: string | number) => {
+            usersData.forEach((user: { [x: string]: string }, index: string | number) => {
                 // The next line calls a function in a module that has not been updated to TS yet
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-call
                 line += `${fields.map((field: string | number) => user[field]).join(',')}`;

@@ -83,6 +83,8 @@ module.exports = function (User) {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
             yield fs_1.default.promises.appendFile(fd, `${fields.join(',')}${showIps ? ',ip' : ''}\n`);
             yield batch_1.default.processSortedSet('users:joindate', (uids) => __awaiter(this, void 0, void 0, function* () {
+                // The next line calls a function in a module that has not been updated to TS yet
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-call
                 const usersData = yield User.getUsersFields(uids, fields.slice());
                 let ips = [];
                 if (showIps) {
