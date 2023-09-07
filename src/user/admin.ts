@@ -11,11 +11,17 @@ import db from '../database';
 import plugins from '../plugins';
 import batch from '../batch';
 
+interface UserType {
+    logIP: (uid: string, ip: string) => Promise<void>;
+    getIPs: (uid: string, stop: number) => Promise<string[]>;
+    getUsersCSV: () => Promise<string>;
+    getUsersFields: any;
+    exportUsersCSV: () => Promise<void>;
+}
 
 
 
-
-export = function (User): void {
+export = function (User: UserType): void {
     User.logIP = async function (uid: string, ip: string | undefined): Promise<void> {
         if (!(parseInt(uid, 10) > 0)) {
             return;
