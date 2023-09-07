@@ -69,7 +69,6 @@ export = function (User: UserType): void {
     };
     User.exportUsersCSV = async function () : Promise<void> {
         winston.verbose('[user/exportUsersCSV] Exporting User CSV data');
-
         const { fields, showIps }: { fields: string[]; showIps: boolean } = (await plugins.hooks.fire('filter:user.csvFields', {
             fields: ['email', 'username', 'uid'],
             showIps: true,
@@ -106,7 +105,6 @@ export = function (User: UserType): void {
                     line += '\n';
                 }
             });
-
             await fs.promises.appendFile(fd, line);
         }, {
             batch: 5000,
